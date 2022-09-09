@@ -2,6 +2,11 @@
 
 
 Using a PyTorch CNN to classify the KNIST dataset
+
+### Current accuracy:
+93.77%
+
+
 ## Using
 
 1. Create a [Google Colaboratory](https://colab.research.google.com/?utm_source=scs-index) account if you don't have one
@@ -17,5 +22,4 @@ Using a PyTorch CNN to classify the KNIST dataset
 - [ ] Publish articles on my model and the results
 
 
-### Current accuracy:
-93.77%
+
