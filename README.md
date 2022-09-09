@@ -1,7 +1,7 @@
-# 🌸 Ygg
+# 🌸 Bonsai
 
 
-Using the KMNIST dataset to classify
+Using a PyTorch CNN to classify the KNIST dataset
 ## Using
 
 1. Create a [Google Colaboratory](https://colab.research.google.com/?utm_source=scs-index) account if you don't have one
@@ -15,3 +15,7 @@ Using the KMNIST dataset to classify
 - [x] Upload model.pkl 
 - [ ] Result analysis with seaborn 
 - [ ] Publish articles on my model and the results
+
+
+### Current accuracy:
+93.77%
