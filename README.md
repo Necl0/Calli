@@ -3,8 +3,8 @@
 
 Using a PyTorch CNN to classify the KNIST dataset
 
-### Current accuracy:
-94.83%
+### Current accuracy (test size 1000):
+95.18%
 
 
 ## Using
