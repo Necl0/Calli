@@ -9,7 +9,7 @@ import torchvision.transforms as transforms
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Hyper parameters
+# Hyperparameters
 num_epochs = 20
 num_classes = 10
 batch_size = 32
