@@ -25,15 +25,13 @@ class Hyperparameters(BaseModel):
     def power_of_two(cls, v: int):
         assert (v & (v-1) == 0) and v != 0, 'Batch size should be a power of two.'
         return v
-
-
-
-
+   
 try:
     m1 = Hyperparameters()
 except ValidationError as e:
     print(e)
 
+    
 # load KMNIST
 train_data = torchvision.datasets.KMNIST(root='../../data/',
                                          train=True,
