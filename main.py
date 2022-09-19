@@ -21,7 +21,7 @@ class Hyperparameters(BaseModel):
     learning_rate: Optional[confloat(gt=0.0)] = 0.01
 
     @validator('batch_size')
-    def power_of_two(cls, v: int):
+    def power_of_two(cls, v: int) -> int:
         assert (v & (v-1) == 0) and v != 0, 'Batch size should be a power of two.'
         return v
 
