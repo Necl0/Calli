@@ -1,19 +1,38 @@
 import torch
 import torch.nn as nn
 import torchvision
-import numpy as np
-import pickle
-
 from torch.utils.data import Dataset, DataLoader
 import torchvision.transforms as transforms
 
+import numpy as np
+import pickle
+
+from pydantic import BaseModel, conint, confloat, validator, ValidationError
+from typing import Optional
+
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Hyperparameters
-num_epochs = 20
-num_classes = 10
-batch_size = 32
-learning_rate = 0.001
+
+class Hyperparameters(BaseModel):
+    """Hyperparameter class"""
+    num_epochs: Optional[conint(gt=0)] = 20
+    num_classes: Optional[conint(gt=0)] = 10
+    batch_size: Optional[conint(gt=0)] = 32
+    learning_rate: Optional[confloat(gt=0.0)] = 0.01
+
+    @validator('batch_size')
+    def power_of_two(cls, v: int):
+        assert (v & (v-1) == 0) and v != 0, 'Batch size should be a power of two.'
+        return v
+
+
+
+
+try:
+    m1 = Hyperparameters()
+except ValidationError as e:
+    print(e)
 
 # load KMNIST
 train_data = torchvision.datasets.KMNIST(root='../../data/',
@@ -27,11 +46,11 @@ test_data = torchvision.datasets.KMNIST(root='../../data/',
 
 # Data Loader
 train_loader = DataLoader(dataset=train_data,
-                          batch_size=batch_size,
+                          batch_size=m1.batch_size,
                           shuffle=True)
 
 test_loader = DataLoader(dataset=test_data,
-                         batch_size=batch_size,
+                         batch_size=m1.batch_size,
                          shuffle=False)
 
 
@@ -59,15 +78,15 @@ class ConvNet(nn.Module):
         return out
 
 
-model = ConvNet(num_classes).to(device)
+model = ConvNet(m1.num_classes).to(device)
 
 # Loss and optimizer
 criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+optimizer = torch.optim.Adam(model.parameters(), lr=m1.learning_rate)
 
 # Train the model
 total_step = len(train_loader)
-for epoch in range(num_epochs):
+for epoch in range(m1.num_epochs):
     for i, (images, labels) in enumerate(train_loader):
         images = images.to(device)
         labels = labels.to(device)
@@ -82,10 +101,10 @@ for epoch in range(num_epochs):
         optimizer.step()
 
         if (i + 1) % 100 == 0:
-            print(f'Epoch [{epoch + 1}/{num_epochs}], Step [{i + 1}/{total_step}], Loss: {loss.item()}')
+            print(f'Epoch [{epoch + 1}/{m1.num_epochs}], Step [{i + 1}/{total_step}], Loss: {loss.item()}')
 
 # Test the model
-model.eval()  # eval mode (batchnorm uses moving mean/variance instead of mini-batch mean/variance)
+model.eval()  # eval mode (batch norm uses moving mean/variance instead of mini-batch mean/variance)
 
 with torch.no_grad():
     correct = 0
@@ -104,3 +123,7 @@ with torch.no_grad():
 
 with open('model_pkl', 'wb') as files:
     pickle.dump(model, files)
+
+
+
+
