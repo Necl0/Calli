@@ -120,7 +120,3 @@ with torch.no_grad():
 
 with open('model_pkl', 'wb') as files:
     pickle.dump(model, files)
-
-
-
-
