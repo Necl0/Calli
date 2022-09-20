@@ -118,5 +118,5 @@ with torch.no_grad():
 
     print(f'Test Accuracy of the model on the 10000 test images: {100 * correct / total}')
 
-with open('model_pkl', 'wb') as files:
+with open('model.pkl', 'wb') as files:
     pickle.dump(model, files)
