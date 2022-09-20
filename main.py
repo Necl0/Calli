@@ -26,7 +26,7 @@ class Hyperparameters(BaseModel):
         return v
 
 try:
-    m1 = Hyperparameters()
+    m1: Hyperparameters = Hyperparameters()
 except ValidationError as e:
     print(e)
 
@@ -78,7 +78,7 @@ class ConvNet(nn.Module):
 model = ConvNet(m1.num_classes).to(device)
 
 # Loss and optimizer
-criterion = nn.CrossEntropyLoss()
+criterion: CrossEntropyLoss = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=m1.learning_rate)
 
 # Train the model
