@@ -1,7 +1,7 @@
 import streamlit as st
 from main import *
 
-with open('model_pkl', 'rb') as f:
+with open('model.pkl', 'rb') as f:
     model = pickle.load(f)
 
 
