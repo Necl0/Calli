@@ -1,4 +1,4 @@
-# 🌸 Bonsai
+#  Aura
 
 
 Using a PyTorch CNN to classify the KNIST dataset
