@@ -1,6 +1,8 @@
 import streamlit as st
 from main import *
 
+with open('model_pkl', 'rb') as f:
+    model = pickle.load(f)
 
 
 def load_image():
@@ -13,8 +15,8 @@ def load_image():
 
 def main():
     st.title('Bonsai')
-    pred = load_image()
-
+    pred = model(load_image())
+    st.write(f"Prediction: {pred}")
 
 
 main()
