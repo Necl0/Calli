@@ -21,36 +21,36 @@ class Hyperparameters(BaseModel):
     num_classes: Optional[conint(gt=0)] = 10
     batch_size: Optional[conint(gt=0)] = 32
     learning_rate: Optional[confloat(gt=0.0)] = 0.01
-    
+
     @validator('batch_size')
     def power_of_two(cls, v: int) -> int:
-        assert (v & (v-1) == 0) and v != 0, 'Batch size should be a power of two.'
+        assert (v & (v - 1) == 0) and v != 0, 'Batch size should be a power of two.'
         return v
+
 
 try:
     m1: Hyperparameters = Hyperparameters()
 except ValidationError as e:
     print(e)
 
-
 # load KMNIST
-train_data: KMNIST = torchvision.datasets.KMNIST(root='../../data/',
-                                         train=True,
-                                         transform=transforms.ToTensor(),
-                                         download=True)
+train_data: KMNIST = KMNIST(root='../../data/',
+                                                 train=True,
+                                                 transform=transforms.ToTensor(),
+                                                 download=True)
 
-test_data: KMNIST = torchvision.datasets.KMNIST(root='../../data/',
-                                        train=False,
-                                        transform=transforms.ToTensor())
+test_data: KMNIST = KMNIST(root='../../data/',
+                                                train=False,
+                                                transform=transforms.ToTensor())
 
 # Data Loader
 train_loader: DataLoader[Any] = DataLoader(dataset=train_data,
-                          batch_size=m1.batch_size,
-                          shuffle=True)
+                                           batch_size=m1.batch_size,
+                                           shuffle=True)
 
 test_loader: DataLoader[Any] = DataLoader(dataset=test_data,
-                         batch_size=m1.batch_size,
-                         shuffle=False)
+                                          batch_size=m1.batch_size,
+                                          shuffle=False)
 
 
 # Convolutional neural network (two convolutional layers)
