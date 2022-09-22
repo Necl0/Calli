@@ -17,10 +17,10 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class Hyperparameters(BaseModel):
     """Hyperparameter class"""
-    num_epochs: Optional[conint(gt=0)] = 20
-    num_classes: Optional[conint(gt=0)] = 10
-    batch_size: Optional[conint(gt=0)] = 32
-    learning_rate: Optional[confloat(gt=0.0)] = 0.01
+    num_epochs: Optional[conint(strict=True,gt=0)] = 20
+    num_classes: Optional[conint(strict=True, gt=0)] = 10
+    batch_size: Optional[conint(strict=True,gt=0)] = 32
+    learning_rate: Optional[confloat(strict=True,gt=0.0)] = 0.01
 
     @validator('batch_size')
     def power_of_two(cls, v: int) -> int:
@@ -35,13 +35,13 @@ except ValidationError as e:
 
 # load KMNIST
 train_data: KMNIST = KMNIST(root='../../data/',
-                                                 train=True,
-                                                 transform=transforms.ToTensor(),
-                                                 download=True)
+                            train=True,
+                            transform=transforms.ToTensor(),
+                            download=True)
 
 test_data: KMNIST = KMNIST(root='../../data/',
-                                                train=False,
-                                                transform=transforms.ToTensor())
+                           train=False,
+                           transform=transforms.ToTensor())
 
 # Data Loader
 train_loader: DataLoader[Any] = DataLoader(dataset=train_data,
@@ -101,6 +101,8 @@ for epoch in range(m1.num_epochs):
 
         if (i + 1) % 100 == 0:
             print(f'Epoch [{epoch + 1}/{m1.num_epochs}], Step [{i + 1}/{total_step}], Loss: {loss.item()}')
+
+
 
 # Test the model
 model.eval()  # eval mode (batch norm uses moving mean/variance instead of mini-batch mean/variance)
