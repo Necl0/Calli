@@ -23,6 +23,7 @@ class Hyperparameters(BaseModel):
     learning_rate: Optional[confloat(strict=True,gt=0.0)] = 0.01
 
     @validator('batch_size')
+    @classmethod
     def power_of_two(cls, v: int) -> int:
         assert (v & (v - 1) == 0) and v != 0, 'Batch size should be a power of two.'
         return v
@@ -56,6 +57,7 @@ test_loader: DataLoader[Any] = DataLoader(dataset=test_data,
 # Convolutional neural network (two convolutional layers)
 class ConvNet(nn.Module):
     def __init__(self, num_classes=10):
+        """initialization method"""
         super(ConvNet, self).__init__()
         self.layer1: Sequential = nn.Sequential(
             nn.Conv2d(1, 16, kernel_size=5, stride=1, padding=2),
@@ -70,6 +72,7 @@ class ConvNet(nn.Module):
         self.fc: Linear = nn.Linear(7 * 7 * 32, num_classes)
 
     def forward(self, x):
+        """forward pass"""
         out: object = self.layer1(x)
         out = self.layer2(out)
         out = out.reshape(out.size(0), -1)
