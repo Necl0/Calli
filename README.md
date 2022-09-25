@@ -1,4 +1,4 @@
-#  Aura
+#  Calli
 
 
 Using a PyTorch CNN to classify the KNIST dataset
